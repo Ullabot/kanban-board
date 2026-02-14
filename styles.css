@@ -1,0 +1,67 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #0b1020;
+  color: #eef2ff;
+}
+header {
+  padding: 16px;
+  border-bottom: 1px solid #25315d;
+  position: sticky;
+  top: 0;
+  background: #0b1020;
+}
+h1 { margin: 0 0 12px; font-size: 1.4rem; }
+#newTaskForm { display: flex; gap: 8px; }
+input, select, button {
+  border: 1px solid #2d3b6c;
+  border-radius: 10px;
+  padding: 10px;
+  background: #121936;
+  color: #fff;
+}
+input { flex: 1; }
+button { cursor: pointer; }
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
+.column {
+  background: #111833;
+  border: 1px solid #25315d;
+  border-radius: 12px;
+  padding: 10px;
+}
+.column h2 { margin: 0 0 8px; font-size: 1rem; }
+.dropzone {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card {
+  background: #1a244a;
+  border: 1px solid #33447f;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: grab;
+}
+.card .meta {
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.85;
+  display: flex;
+  justify-content: space-between;
+}
+.badge { padding: 2px 8px; border-radius: 999px; font-size: 11px; }
+.low { background: #1e5d3f; }
+.medium { background: #6a571d; }
+.high { background: #6a1d2b; }
+.actions { margin-top: 8px; text-align: right; }
+.actions button { padding: 4px 8px; font-size: 12px; }
+@media (max-width: 900px) {
+  .board { grid-template-columns: 1fr; }
+}

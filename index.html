@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kanban Board</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Kanban Board</h1>
+    <form id="newTaskForm">
+      <input id="taskInput" type="text" placeholder="Ny opgave..." required />
+      <select id="priorityInput">
+        <option value="low">Lav</option>
+        <option value="medium" selected>Mellem</option>
+        <option value="high">Høj</option>
+      </select>
+      <button type="submit">Tilføj</button>
+    </form>
+  </header>
+
+  <main class="board" id="board">
+    <section class="column" data-column="todo">
+      <h2>To do</h2>
+      <div class="dropzone" id="todo"></div>
+    </section>
+    <section class="column" data-column="doing">
+      <h2>I gang</h2>
+      <div class="dropzone" id="doing"></div>
+    </section>
+    <section class="column" data-column="done">
+      <h2>Færdig</h2>
+      <div class="dropzone" id="done"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
