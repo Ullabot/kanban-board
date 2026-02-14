@@ -29,6 +29,14 @@ function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
 
+function isOverdue(deadline) {
+  if (!deadline) return false;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const d = new Date(deadline + 'T00:00:00');
+  return d < today;
+}
+
 function createCard(task, column) {
   const card = document.createElement('article');
   card.className = 'card';
@@ -36,21 +44,40 @@ function createCard(task, column) {
   card.dataset.id = task.id;
   card.dataset.from = column;
 
+  const overdue = isOverdue(task.deadline) && column !== 'done';
+  const deadlineLabel = task.deadline ? `Deadline: ${task.deadline}` : 'Ingen deadline';
+
   card.innerHTML = `
     <div>${task.title}</div>
     <div class="meta">
       <span class="badge ${task.priority}">${task.priority}</span>
-      <span>${task.createdAt}</span>
+      <span class="deadline ${overdue ? 'overdue' : ''}">${deadlineLabel}</span>
     </div>
-    <div class="actions"><button data-delete="${task.id}">Slet</button></div>
+    <div class="actions">
+      <button data-edit="${task.id}">Redigér</button>
+      <button data-delete="${task.id}">Slet</button>
+    </div>
   `;
 
   card.addEventListener('dragstart', (e) => {
     e.dataTransfer.setData('text/plain', JSON.stringify({ id: task.id, from: column }));
   });
 
-  card.querySelector('button').addEventListener('click', () => {
+  card.querySelector('[data-delete]').addEventListener('click', () => {
     state[column] = state[column].filter(t => t.id !== task.id);
+    save();
+    render();
+  });
+
+  card.querySelector('[data-edit]').addEventListener('click', () => {
+    const newTitle = prompt('Ny titel:', task.title);
+    if (newTitle === null) return;
+    const trimmed = newTitle.trim();
+    if (!trimmed) return;
+    const newDeadline = prompt('Deadline (YYYY-MM-DD eller tom):', task.deadline || '');
+    if (newDeadline === null) return;
+    task.title = trimmed;
+    task.deadline = newDeadline.trim();
     save();
     render();
   });
@@ -85,6 +112,7 @@ document.getElementById('newTaskForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const titleInput = document.getElementById('taskInput');
   const priorityInput = document.getElementById('priorityInput');
+  const deadlineInput = document.getElementById('deadlineInput');
   const title = titleInput.value.trim();
   if (!title) return;
 
@@ -92,11 +120,13 @@ document.getElementById('newTaskForm').addEventListener('submit', (e) => {
     id: uid(),
     title,
     priority: priorityInput.value,
+    deadline: deadlineInput.value,
     createdAt: new Date().toLocaleDateString('da-DK')
   });
 
   titleInput.value = '';
   priorityInput.value = 'medium';
+  deadlineInput.value = '';
   save();
   render();
 });

@@ -52,15 +52,17 @@ button { cursor: pointer; }
 .card .meta {
   margin-top: 8px;
   font-size: 12px;
-  opacity: 0.85;
+  opacity: 0.9;
   display: flex;
   justify-content: space-between;
+  gap: 8px;
 }
 .badge { padding: 2px 8px; border-radius: 999px; font-size: 11px; }
 .low { background: #1e5d3f; }
 .medium { background: #6a571d; }
 .high { background: #6a1d2b; }
-.actions { margin-top: 8px; text-align: right; }
+.deadline.overdue { color: #ff8ea0; font-weight: 700; }
+.actions { margin-top: 8px; text-align: right; display: flex; justify-content: flex-end; gap: 6px; }
 .actions button { padding: 4px 8px; font-size: 12px; }
 @media (max-width: 900px) {
   .board { grid-template-columns: 1fr; }
