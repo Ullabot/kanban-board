@@ -235,5 +235,35 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   render();
 });
 
+function setActiveMobileTab(tab) {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const columns = document.querySelectorAll('.column');
+  const tabButtons = document.querySelectorAll('#mobileTabs button');
+
+  if (!isMobile) {
+    columns.forEach(col => col.classList.add('active'));
+    tabButtons.forEach(btn => btn.classList.remove('active'));
+    return;
+  }
+
+  columns.forEach(col => {
+    col.classList.toggle('active', col.dataset.column === tab);
+  });
+
+  tabButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+}
+
+document.querySelectorAll('#mobileTabs button').forEach(btn => {
+  btn.addEventListener('click', () => setActiveMobileTab(btn.dataset.tab));
+});
+
+window.addEventListener('resize', () => {
+  const activeBtn = document.querySelector('#mobileTabs button.active');
+  setActiveMobileTab(activeBtn ? activeBtn.dataset.tab : 'todo');
+});
+
 save();
 render();
+setActiveMobileTab('todo');
