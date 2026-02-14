@@ -61,6 +61,23 @@ function seedState() {
 
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || seedState();
 
+function migrateSolvedSuggestionsToDone() {
+  const solvedTitles = new Set(suggestedTodos.map(t => t.title));
+  const fromTodo = state.todo.filter(t => solvedTitles.has(t.title));
+  const fromDoing = state.doing.filter(t => solvedTitles.has(t.title));
+
+  if (fromTodo.length === 0 && fromDoing.length === 0) return;
+
+  state.todo = state.todo.filter(t => !solvedTitles.has(t.title));
+  state.doing = state.doing.filter(t => !solvedTitles.has(t.title));
+
+  const existingDoneTitles = new Set(state.done.map(t => t.title));
+  const toAdd = [...fromTodo, ...fromDoing].filter(t => !existingDoneTitles.has(t.title));
+  state.done = [...toAdd, ...state.done];
+}
+
+migrateSolvedSuggestionsToDone();
+
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
