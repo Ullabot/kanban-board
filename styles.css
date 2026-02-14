@@ -11,18 +11,26 @@ header {
   position: sticky;
   top: 0;
   background: #0b1020;
+  z-index: 2;
 }
 h1 { margin: 0 0 12px; font-size: 1.4rem; }
-#newTaskForm { display: flex; gap: 8px; }
-input, select, button {
+#newTaskForm, .toolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+input, select, button, .import-label {
   border: 1px solid #2d3b6c;
   border-radius: 10px;
   padding: 10px;
   background: #121936;
   color: #fff;
 }
-input { flex: 1; }
-button { cursor: pointer; }
+input[type="file"] { display: none; }
+#taskInput { flex: 1; min-width: 200px; }
+button, .import-label { cursor: pointer; }
+.import-label { display: inline-flex; align-items: center; }
 .board {
   display: grid;
   grid-template-columns: repeat(3, minmax(220px, 1fr));
@@ -56,14 +64,23 @@ button { cursor: pointer; }
   display: flex;
   justify-content: space-between;
   gap: 8px;
+  flex-wrap: wrap;
+}
+.description {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #cfd6ff;
+  opacity: 0.9;
 }
 .badge { padding: 2px 8px; border-radius: 999px; font-size: 11px; }
 .low { background: #1e5d3f; }
 .medium { background: #6a571d; }
 .high { background: #6a1d2b; }
+.label-pill { background: #33447f; }
 .deadline.overdue { color: #ff8ea0; font-weight: 700; }
 .actions { margin-top: 8px; text-align: right; display: flex; justify-content: flex-end; gap: 6px; }
 .actions button { padding: 4px 8px; font-size: 12px; }
+.empty-note { opacity: 0.6; font-size: 13px; padding: 6px; }
 @media (max-width: 900px) {
   .board { grid-template-columns: 1fr; }
 }

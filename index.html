@@ -9,8 +9,10 @@
 <body>
   <header>
     <h1>Kanban Board</h1>
+
     <form id="newTaskForm">
       <input id="taskInput" type="text" placeholder="Ny opgave..." required />
+      <input id="labelInput" type="text" placeholder="Label (fx backend)" />
       <input id="deadlineInput" type="date" />
       <select id="priorityInput">
         <option value="low">Lav</option>
@@ -19,6 +21,17 @@
       </select>
       <button type="submit">Tilføj</button>
     </form>
+
+    <div class="toolbar">
+      <input id="searchInput" type="text" placeholder="Søg opgaver..." />
+      <input id="filterLabelInput" type="text" placeholder="Filter label..." />
+      <button id="exportBtn" type="button">Eksport JSON</button>
+      <label class="import-label">
+        Import JSON
+        <input id="importInput" type="file" accept="application/json" />
+      </label>
+      <button id="resetBtn" type="button">Nulstil demo</button>
+    </div>
   </header>
 
   <main class="board" id="board">
