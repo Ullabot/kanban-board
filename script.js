@@ -1,7 +1,22 @@
 const STORAGE_KEY = 'kanban-board-v1';
 
-let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || {
-  todo: [],
+const suggestedTodos = [
+  { title: 'Tilføj redigering af kort (rename + beskrivelse)', priority: 'high' },
+  { title: 'Tilføj deadlines og vis forsinkede opgaver', priority: 'high' },
+  { title: 'Tilføj labels/tags og filter på labels', priority: 'medium' },
+  { title: 'Tilføj søgning på tværs af alle kolonner', priority: 'medium' },
+  { title: 'Tilføj eksport/import af board-data (JSON)', priority: 'low' }
+];
+
+const storedState = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+
+let state = storedState || {
+  todo: suggestedTodos.map((t) => ({
+    id: uid(),
+    title: t.title,
+    priority: t.priority,
+    createdAt: new Date().toLocaleDateString('da-DK')
+  })),
   doing: [],
   done: []
 };
