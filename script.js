@@ -42,18 +42,20 @@ function todayISO() {
 }
 
 function seedState() {
+  const solved = suggestedTodos.map((t, i) => ({
+    id: uid(),
+    title: t.title,
+    description: t.description,
+    label: t.label,
+    priority: t.priority,
+    deadline: i < 2 ? todayISO() : '',
+    createdAt: new Date().toLocaleDateString('da-DK')
+  }));
+
   return {
-    todo: suggestedTodos.map((t, i) => ({
-      id: uid(),
-      title: t.title,
-      description: t.description,
-      label: t.label,
-      priority: t.priority,
-      deadline: i < 2 ? todayISO() : '',
-      createdAt: new Date().toLocaleDateString('da-DK')
-    })),
+    todo: [],
     doing: [],
-    done: []
+    done: solved
   };
 }
 
