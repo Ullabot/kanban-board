@@ -59,6 +59,11 @@ function seedState() {
   };
 }
 
+const params = new URLSearchParams(window.location.search);
+if (params.get('reset') === '1') {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
 let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || seedState();
 
 function migrateSolvedSuggestionsToDone() {
