@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kanban Board</title>
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=7" />
 </head>
 <body>
   <header>
@@ -22,8 +22,13 @@
       <button type="submit">Tilføj</button>
     </form>
 
-    <div class="toolbar">
+    <div class="toolbar toolbar-primary">
       <input id="searchInput" type="text" placeholder="Søg opgaver..." />
+      <button id="toggleFiltersBtn" type="button">Filtre</button>
+      <button id="toggleToolsBtn" type="button">Menu</button>
+    </div>
+
+    <div id="filtersMenu" class="toolbar toolbar-group">
       <input id="filterLabelInput" type="text" placeholder="Filter label..." />
 
       <select id="filterPriorityInput">
@@ -47,7 +52,9 @@
         <option value="week">Næste 7 dage</option>
         <option value="none">Ingen deadline</option>
       </select>
+    </div>
 
+    <div id="toolsMenu" class="toolbar toolbar-group">
       <button id="analyticsBtn" type="button">Analytics</button>
       <button id="archiveBtn" type="button">Arkiv</button>
       <button id="notifyBtn" type="button">Aktivér reminders</button>
@@ -86,6 +93,6 @@
     </section>
   </main>
 
-  <script src="script.js?v=5"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

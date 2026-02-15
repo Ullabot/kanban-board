@@ -573,12 +573,47 @@ function setActiveMobileTab(tab) {
   });
 }
 
+const menuState = {
+  filtersOpen: false,
+  toolsOpen: false
+};
+
+function applyMenuLayout() {
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  const filtersMenu = document.getElementById('filtersMenu');
+  const toolsMenu = document.getElementById('toolsMenu');
+  const filtersBtn = document.getElementById('toggleFiltersBtn');
+  const toolsBtn = document.getElementById('toggleToolsBtn');
+
+  const showFilters = !isMobile || menuState.filtersOpen;
+  const showTools = !isMobile || menuState.toolsOpen;
+
+  filtersMenu.classList.toggle('hidden', !showFilters);
+  toolsMenu.classList.toggle('hidden', !showTools);
+
+  filtersBtn.classList.toggle('active', showFilters && isMobile);
+  toolsBtn.classList.toggle('active', showTools && isMobile);
+  filtersBtn.setAttribute('aria-expanded', String(showFilters));
+  toolsBtn.setAttribute('aria-expanded', String(showTools));
+}
+
+document.getElementById('toggleFiltersBtn').addEventListener('click', () => {
+  menuState.filtersOpen = !menuState.filtersOpen;
+  applyMenuLayout();
+});
+
+document.getElementById('toggleToolsBtn').addEventListener('click', () => {
+  menuState.toolsOpen = !menuState.toolsOpen;
+  applyMenuLayout();
+});
+
 document.querySelectorAll('#mobileTabs button').forEach(btn => {
   btn.addEventListener('click', () => setActiveMobileTab(btn.dataset.tab));
 });
 
 window.addEventListener('resize', () => {
   setActiveMobileTab(activeTab || 'todo');
+  applyMenuLayout();
 });
 
 function syncFromStorage() {
@@ -603,4 +638,5 @@ ensureDemoTodos();
 save();
 render();
 setActiveMobileTab('todo');
+applyMenuLayout();
 checkDeadlineReminders();
