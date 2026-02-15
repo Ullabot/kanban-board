@@ -7,6 +7,39 @@ const WIP_LIMITS = {
   done: 999
 };
 
+const DEMO_IMPROVEMENTS = [
+  {
+    title: 'Samarbejde i realtid (live sync mellem brugere)',
+    label: 'collaboration',
+    priority: 'high',
+    description: 'Mulighed for at flere kan arbejde på samme board samtidigt med konfliktfri opdateringer.'
+  },
+  {
+    title: 'Notifikationer og reminders på deadlines',
+    label: 'notifications',
+    priority: 'medium',
+    description: 'Send browsernotifikationer ved kommende eller overskredne deadlines.'
+  },
+  {
+    title: 'Arkiv + versionshistorik med gendan',
+    label: 'history',
+    priority: 'medium',
+    description: 'Gem historik på kort og gør det muligt at gendanne arkiverede opgaver.'
+  },
+  {
+    title: 'Avanceret filtrering (prioritet/status/deadline)',
+    label: 'filters',
+    priority: 'medium',
+    description: 'Kombinér flere filtre for hurtigt at finde den rigtige delmængde af opgaver.'
+  },
+  {
+    title: 'Analytics-view med throughput og flaskehalse',
+    label: 'metrics',
+    priority: 'low',
+    description: 'Vis lead time, antal afsluttede kort og potentielle bottlenecks i boardet.'
+  }
+];
+
 function uid() {
   return Math.random().toString(36).slice(2, 10);
 }
@@ -30,9 +63,21 @@ function seedState() {
     meta: {
       lastReminderCheckAt: null,
       notifiedDeadlines: {},
-      lastWriteAt: nowISO()
+      lastWriteAt: nowISO(),
+      demoTodosInjected: true
     },
-    todo: [],
+    todo: DEMO_IMPROVEMENTS.map(item => ({
+      id: uid(),
+      title: item.title,
+      description: item.description,
+      label: item.label,
+      priority: item.priority,
+      deadline: '',
+      createdAt: new Date().toLocaleDateString('da-DK'),
+      updatedAt: nowISO(),
+      doneAt: null,
+      archivedAt: null
+    })),
     doing: [],
     done: [],
     archive: [],
@@ -43,6 +88,39 @@ function seedState() {
 let state = migrateState(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null') || seedState());
 let activeTab = 'todo';
 const syncChannel = 'BroadcastChannel' in window ? new BroadcastChannel(CHANNEL_KEY) : null;
+
+function ensureDemoTodos() {
+  if (state.meta.demoTodosInjected) return false;
+
+  const existingTitles = new Set([
+    ...state.todo,
+    ...state.doing,
+    ...state.done,
+    ...state.archive
+  ].map(t => t.title));
+
+  const toAdd = DEMO_IMPROVEMENTS
+    .filter(item => !existingTitles.has(item.title))
+    .map(item => ({
+      id: uid(),
+      title: item.title,
+      description: item.description,
+      label: item.label,
+      priority: item.priority,
+      deadline: '',
+      createdAt: new Date().toLocaleDateString('da-DK'),
+      updatedAt: nowISO(),
+      doneAt: null,
+      archivedAt: null
+    }));
+
+  if (toAdd.length > 0) {
+    state.todo = [...toAdd, ...state.todo];
+  }
+
+  state.meta.demoTodosInjected = true;
+  return toAdd.length > 0;
+}
 
 function migrateState(raw) {
   const s = raw || seedState();
@@ -55,6 +133,7 @@ function migrateState(raw) {
   s.meta.notifiedDeadlines = s.meta.notifiedDeadlines || {};
   s.meta.lastReminderCheckAt = s.meta.lastReminderCheckAt || null;
   s.meta.lastWriteAt = s.meta.lastWriteAt || nowISO();
+  s.meta.demoTodosInjected = Boolean(s.meta.demoTodosInjected);
 
   ['todo', 'doing', 'done', 'archive'].forEach(col => {
     s[col] = s[col].map(task => ({
@@ -520,6 +599,7 @@ if (syncChannel) {
   syncChannel.onmessage = () => syncFromStorage();
 }
 
+ensureDemoTodos();
 save();
 render();
 setActiveMobileTab('todo');
