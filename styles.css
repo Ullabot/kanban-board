@@ -42,6 +42,14 @@ input[type="file"] { display: none; }
 #taskInput { flex: 1; min-width: 200px; }
 button, .import-label { cursor: pointer; }
 .import-label { display: inline-flex; align-items: center; }
+
+.status-chip {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  color: #bcd0ff;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, minmax(220px, 1fr));
@@ -54,7 +62,7 @@ button, .import-label { cursor: pointer; }
   border-radius: 12px;
   padding: 10px;
 }
-.column h2 { margin: 0 0 8px; font-size: 1rem; }
+.column h2 { margin: 0 0 8px; font-size: 1rem; display: flex; justify-content: space-between; align-items: center; }
 .dropzone {
   min-height: 260px;
   display: flex;
@@ -92,6 +100,38 @@ button, .import-label { cursor: pointer; }
 .actions { margin-top: 8px; text-align: right; display: flex; justify-content: flex-end; gap: 6px; }
 .actions button { padding: 4px 8px; font-size: 12px; }
 .empty-note { opacity: 0.6; font-size: 13px; padding: 6px; }
+
+.wip-pill {
+  font-size: 11px;
+  border: 1px solid #365095;
+  border-radius: 999px;
+  padding: 2px 8px;
+  color: #b9ccff;
+}
+.wip-pill.warn {
+  border-color: #ff8ea0;
+  color: #ffb2c0;
+}
+
+.panel {
+  margin: 12px;
+  border: 1px solid #33447f;
+  border-radius: 12px;
+  background: #121936;
+  padding: 12px;
+}
+.hidden { display: none; }
+.panel h3 { margin: 0 0 10px; }
+.panel .row { margin: 6px 0; font-size: 14px; }
+.panel .archive-item {
+  border-top: 1px solid #25315d;
+  padding: 8px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
 @media (max-width: 900px) {
   header {
     padding: 12px;

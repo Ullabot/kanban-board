@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Kanban Board</title>
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <header>
@@ -25,6 +25,32 @@
     <div class="toolbar">
       <input id="searchInput" type="text" placeholder="Søg opgaver..." />
       <input id="filterLabelInput" type="text" placeholder="Filter label..." />
+
+      <select id="filterPriorityInput">
+        <option value="all">Alle prioriteter</option>
+        <option value="high">Kun høj</option>
+        <option value="medium">Kun mellem</option>
+        <option value="low">Kun lav</option>
+      </select>
+
+      <select id="filterStatusInput">
+        <option value="all">Alle statuser</option>
+        <option value="todo">Kun To do</option>
+        <option value="doing">Kun I gang</option>
+        <option value="done">Kun Færdig</option>
+      </select>
+
+      <select id="filterDeadlineInput">
+        <option value="all">Alle deadlines</option>
+        <option value="overdue">Kun forsinkede</option>
+        <option value="today">Forfalder i dag</option>
+        <option value="week">Næste 7 dage</option>
+        <option value="none">Ingen deadline</option>
+      </select>
+
+      <button id="analyticsBtn" type="button">Analytics</button>
+      <button id="archiveBtn" type="button">Arkiv</button>
+      <button id="notifyBtn" type="button">Aktivér reminders</button>
       <button id="exportBtn" type="button">Eksport JSON</button>
       <label class="import-label">
         Import JSON
@@ -32,7 +58,12 @@
       </label>
       <button id="resetBtn" type="button">Nulstil demo</button>
     </div>
+
+    <div id="syncStatus" class="status-chip">Realtime sync: aktiv (samme browser)</div>
   </header>
+
+  <section id="analyticsPanel" class="panel hidden" aria-live="polite"></section>
+  <section id="archivePanel" class="panel hidden" aria-live="polite"></section>
 
   <nav class="mobile-tabs" id="mobileTabs">
     <button data-tab="todo" class="active">To do</button>
@@ -42,19 +73,19 @@
 
   <main class="board" id="board">
     <section class="column" data-column="todo">
-      <h2>To do</h2>
+      <h2>To do <span id="wipTodo" class="wip-pill"></span></h2>
       <div class="dropzone" id="todo"></div>
     </section>
     <section class="column" data-column="doing">
-      <h2>I gang</h2>
+      <h2>I gang <span id="wipDoing" class="wip-pill"></span></h2>
       <div class="dropzone" id="doing"></div>
     </section>
     <section class="column" data-column="done">
-      <h2>Færdig</h2>
+      <h2>Færdig <span id="wipDone" class="wip-pill"></span></h2>
       <div class="dropzone" id="done"></div>
     </section>
   </main>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
