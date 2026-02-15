@@ -134,43 +134,92 @@ button, .import-label { cursor: pointer; }
 
 @media (max-width: 900px) {
   header {
-    padding: 12px;
+    position: static;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
   }
 
   #newTaskForm {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   #taskInput {
-    grid-column: 1 / -1;
     min-width: 0;
+  }
+
+  #newTaskForm button,
+  .toolbar button,
+  .toolbar .import-label,
+  .toolbar input,
+  .toolbar select {
+    width: 100%;
+    min-height: 42px;
   }
 
   .toolbar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 10px;
   }
 
-  .toolbar #searchInput,
-  .toolbar #filterLabelInput {
-    grid-column: 1 / -1;
+  .status-chip {
+    margin-top: 8px;
+    font-size: 11px;
   }
 
   .mobile-tabs {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #0b1020;
+    padding: 8px 10px;
+    border-bottom: 1px solid #25315d;
+  }
+
+  .mobile-tabs button {
+    width: 100%;
+    min-height: 40px;
   }
 
   .board {
     grid-template-columns: 1fr;
-    padding-top: 8px;
+    padding: 8px;
   }
 
   .column {
     display: none;
+    padding: 8px;
   }
 
   .column.active {
     display: block;
+  }
+
+  .card {
+    padding: 10px;
+  }
+
+  .actions {
+    justify-content: stretch;
+  }
+
+  .actions button {
+    flex: 1;
+    min-height: 36px;
+  }
+
+  .panel {
+    margin: 8px;
+    padding: 10px;
   }
 }
